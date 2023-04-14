@@ -3,31 +3,30 @@
 // priority field value is "Medium" or lower, remove the "URGENT: " summary prefix.
 // This Behaviour should not work on the Edit Screen.
 
-import com.atlassian.jira.issue.Issue
+import com.atlassian.jira.component.ComponentAccessor
 
-// Checking if the issue is being created
-def created = getActionName() == "Create Issue"
+//Gets the Priority and Summary Fields
+def priorityField = getFieldById(getFieldChanged())
+def summaryField = getFieldById("summary")
 
-if (created) {
-    // Getting the priority field
-    def priorityField = getFieldByName("priority")
+//Gets the value of the Priority Field
+def priorityValue = priorityField.getValue()
 
-    // Getting the summary field
-    def summaryField = getFieldByName("summary")
-
-    // Getting the current value of the priority field
-    def priorityValue = priorityField.getValue() as String
-
-    // Checking if the priority is High or Highest
+//Checks if the Priority Field is the field that triggered the script
+if (getFieldChanged() == "priority") {
+    //Checks if the Priority Field is being set to High or Highest
     if (priorityValue == "High" || priorityValue == "Highest") {
-        // Prepend "URGENT: " to the summary field value
+        //Prepends "URGENT: " to the Summary Field
         def summaryValue = "URGENT: " + summaryField.getValue()
         summaryField.setFormValue(summaryValue)
-    } else {
-        // Removing "URGENT: " prefix from the summary field value
-        def summaryValue = summaryField.getValue()
-        summaryValue = summaryValue.replaceFirst("URGENT: ", "")
+    }
+    //Checks if the Priority Field is being set to Medium or Lower
+    else if (priorityValue == "Medium" || priorityValue == "Low" || priorityValue == "Lowest") {
+        //Removes "URGENT: " from the Summary Field
+        def summaryValue = summaryField.getValue() as String
+        summaryValue = summaryValue.replace("URGENT: ", "")
         summaryField.setFormValue(summaryValue)
+
     }
 }
 
