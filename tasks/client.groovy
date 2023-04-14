@@ -1,14 +1,24 @@
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.event.type.EventDispatchOption
+import com.atlassian.jira.issue.customfields.option.Option
 
-def issue = event.issue
+def issueManager = ComponentAccessor.issueManager
 def customFieldManager = ComponentAccessor.customFieldManager
-def textField = customFieldManager.getCustomFieldObjectByName("TextField")
-def selectField = customFieldManager.getCustomFieldObjectByName("Select List")
+def optionsManager = ComponentAccessor.optionsManager
+def user = ComponentAccessor.jiraAuthenticationContext.loggedInUser
 
-def currentUser = ComponentAccessor.jiraAuthenticationContext.loggedInUser
-def updateOptions = EventDispatchOption.DO_NOT_DISPATCH
+def textField = customFieldManager.getCustomFieldObject("customfield_10117")
+def selectField = customFieldManager.getCustomFieldObject("customfield_10116")
 
-if(!event.getUser().getDisplayName().equalsIgnoreCase("Your Listener Username")) {
-def changeHolder = event.getChangeLog()
-def changeItems = changeHolder.getChangeItems()
+def issueId = event.issue.id
+def issue = issueManager.getIssueObject(issueId)
+
+issue.setCustomFieldValue(textField, "Updated")
+
+def optionSet = optionsManager.getOptions(selectField.getRelevantConfig(issue))
+if (optionSet) {
+  def selectedOption = optionSet.getOptionForValue("New Value", null)
+  issue.setCustomFieldValue(selectField, selectedOption)
+}
+
+issueManager.updateIssue(user, issue, EventDispatchOption.DO_NOT_DISPATCH, false)

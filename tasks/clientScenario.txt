@@ -1,0 +1,40 @@
+Dear Suhanisa,
+
+Thank you for reaching out to us for help with your Script Listener issue.
+
+We reviewed your previous code and found some errors. We have made some modifications to your code to fix the issues you were having. Please find the corrected version of the code below.
+
+import com.atlassian.jira.component.ComponentAccessor
+import com.atlassian.jira.event.type.EventDispatchOption
+import com.atlassian.jira.issue.customfields.option.Option
+
+def issueManager = ComponentAccessor.issueManager
+def customFieldManager = ComponentAccessor.customFieldManager
+def optionsManager = ComponentAccessor.optionsManager
+def user = ComponentAccessor.jiraAuthenticationContext.loggedInUser
+
+def textField = customFieldManager.getCustomFieldObject("customfield_10117")
+def selectField = customFieldManager.getCustomFieldObject("customfield_10116")
+
+def issueId = event.issue.id
+def issue = issueManager.getIssueObject(issueId)
+
+issue.setCustomFieldValue(textField, "Updated")
+
+def optionSet = optionsManager.getOptions(selectField.getRelevantConfig(issue))
+if (optionSet) {
+  def selectedOption = optionSet.getOptionForValue("New Value", null)
+  issue.setCustomFieldValue(selectField, selectedOption)
+}
+
+issueManager.updateIssue(user, issue, EventDispatchOption.DO_NOT_DISPATCH, false)
+
+Please note that the issue was with the setCustomFieldValue method. We have modified the code to use the correct method signatures for setCustomFieldValue.
+
+You can use this code in your Script Listener to update your custom fields when an issue is updated.
+
+Let us know if you have any further questions or concerns.
+
+Best regards,
+
+Kanhai Raval
