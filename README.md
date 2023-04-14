@@ -30,6 +30,7 @@ Contributions to this project are welcome. Please submit a pull request or open 
 
 ## Screenshot
 
+![Screen Shot 2023-04-14 at 10 25 25 AM](https://user-images.githubusercontent.com/114125334/232072154-0d0f3baf-8702-44af-9d3a-be70aa942d89.png)
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
