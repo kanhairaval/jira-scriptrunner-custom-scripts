@@ -13,8 +13,8 @@ def customFieldManager = ComponentAccessor.customFieldManager
 def optionsManager = ComponentAccessor.optionsManager
 def user = ComponentAccessor.jiraAuthenticationContext.loggedInUser
 
-def textField = customFieldManager.getCustomFieldObject("customfield_10117")
-def selectField = customFieldManager.getCustomFieldObject("customfield_10116")
+def textField = customFieldManager.getCustomFieldObject("customfield_10203")
+def selectField = customFieldManager.getCustomFieldObject("customfield_10204")
 
 def issueId = event.issue.id
 def issue = issueManager.getIssueObject(issueId)
@@ -32,6 +32,8 @@ issueManager.updateIssue(user, issue, EventDispatchOption.DO_NOT_DISPATCH, false
 Please note that the issue was with the setCustomFieldValue method. We have modified the code to use the correct method signatures for setCustomFieldValue.
 
 You can use this code in your Script Listener to update your custom fields when an issue is updated.
+
+Please, make sure you change the custom field ID as per your custom field for this to work.
 
 Let us know if you have any further questions or concerns.
 

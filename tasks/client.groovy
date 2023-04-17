@@ -7,8 +7,8 @@ def customFieldManager = ComponentAccessor.customFieldManager
 def optionsManager = ComponentAccessor.optionsManager
 def user = ComponentAccessor.jiraAuthenticationContext.loggedInUser
 
-def textField = customFieldManager.getCustomFieldObject("customfield_10117")
-def selectField = customFieldManager.getCustomFieldObject("customfield_10116")
+def textField = customFieldManager.getCustomFieldObject("customfield_10203")
+def selectField = customFieldManager.getCustomFieldObject("customfield_10204")
 
 def issueId = event.issue.id
 def issue = issueManager.getIssueObject(issueId)
